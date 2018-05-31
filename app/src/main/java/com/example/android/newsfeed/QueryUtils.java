@@ -82,9 +82,11 @@ public final class QueryUtils {
                 JSONObject newsItem = results.getJSONObject(i);
                 String title = newsItem.getString("webTitle");
                 String section = newsItem.getString("sectionName");
-                Long date = newsItem.getLong("webPublicationDate");
+                String date = newsItem.getString("webPublicationDate");
                 String url = newsItem.getString("webUrl");
-                news.add(new News(title, section, date, url));
+                JSONObject fields = newsItem.getJSONObject("fields");
+                String author = fields.getString("byline");
+                news.add(new News(title, section, date, author, url));
             }
 
         } catch (JSONException e) {
