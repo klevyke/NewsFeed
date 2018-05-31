@@ -19,13 +19,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>>{
 
     public static final String LOG_TAG = NewsActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
 
     /** JSON url String */
-    private static final String JSON_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=5&limit=10";
+    private static final String JSON_URL = "https://content.guardianapis.com/search?q=trump&tag=politics/politics&from-date=2014-01-01&api-key=test&show-fields=all";
 
     /** Adapter for the list of earthquakes */
     private NewsAdapter mAdapter;
@@ -86,7 +86,7 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
         Log.e(LOG_TAG,"onCreateLoader");
-        return new EarthquakeLoader(this, JSON_URL);
+        return new NewsLoader(this, JSON_URL);
     }
 
     @Override

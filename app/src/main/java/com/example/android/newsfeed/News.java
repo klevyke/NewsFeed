@@ -47,6 +47,10 @@ public class News {
         return date;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
     public String getUrl() {
         return url;
     }
