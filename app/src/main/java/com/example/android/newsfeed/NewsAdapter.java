@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by Levy on 31.05.2018.
  */
@@ -42,31 +41,26 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         // Find the TextView in the list_item.xml layout with the ID title
         TextView titleTextView = (TextView) convertView.findViewById(R.id.title);
-
         // Get the name of the current News object and set this text on the TextView
         titleTextView.setText(news.getTitle());
 
         // Find the TextView in the list_item.xml layout with the ID section
         TextView sectionTextView = (TextView) convertView.findViewById(R.id.section);
-
         // Get the name of the current News object and set this text on the TextView
         sectionTextView.setText(news.getSection());
 
         // Find the TextView in the list_item.xml layout with the ID section
         TextView leadTextView = (TextView) convertView.findViewById(R.id.lead);
-
         // Get the name of the current News object and set this text on the TextView
         leadTextView.setText(Html.fromHtml(news.getLead()));
 
         // Find the TextView in the list_item.xml layout with the ID date
         TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
-
         // Get the date of the current News object and set this text on the TextView
         dateTextView.setText(news.getUserFriendlyDate());
 
         // Find the TextView in the list_item.xml layout with the ID author
         TextView authorTextView = (TextView) convertView.findViewById(R.id.author);
-
         // Get the date of the current News object and set this text on the TextView
         authorTextView.setText(news.getAuthor());
 

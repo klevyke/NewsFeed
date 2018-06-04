@@ -12,11 +12,12 @@ import java.util.List;
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
     String urls[];
 
+    /* Constructor */
     public NewsLoader (Context context, String... urls) {
         super(context);
         this.urls = urls;
     }
-
+    /* Do background tasks */
     @Override
     public List<News> loadInBackground() {
         // Don't perform the request if there are no URLs, or the first URL is null.
@@ -27,11 +28,10 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
         List<News> result = QueryUtils.fetchEarthquakeData(urls[0]);
         return result;
     }
-
+    /* Start loading data in background */
     @Override
     protected void onStartLoading() {
         forceLoad();
-
         super.onStartLoading();
     }
 }

@@ -21,16 +21,20 @@ import java.util.List;
 
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>>{
 
-    public static final String LOG_TAG = NewsActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
 
     /** JSON url String */
     private static final String JSON_URL = "https://content.guardianapis.com/search?q=roland%20garros&format=json&show-fields=byline,trailText&order-by=newest&api-key=test";
 
-    /** Adapter for the list of earthquakes */
+    /** Adapter for the list of news */
     private NewsAdapter mAdapter;
+
+    /** Textview for empty state message **/
     TextView emptyState;
+
+    /** Progressbar while loading news **/
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +42,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Find a reference to the {@link ListView} in the layout
         ListView newsListView = (ListView) findViewById(R.id.list);
+
         // Find a reference to the {@link ListView} in the layout
         emptyState = (TextView)findViewById(R.id.empty_state);
         newsListView.setEmptyView(emptyState);
+
         // Find a reference to the {@link ListView} in the layout
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
@@ -50,14 +56,18 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         newsListView.setAdapter(mAdapter);
+
+        // Initialiye the ConnectivityManages and check the internet connection and display a message if no connection found
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
         if (networkInfo == null || !networkInfo.isConnected() ||
                 (networkInfo.getType() != ConnectivityManager.TYPE_WIFI
                         && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
-            emptyState.setText("No network connection");
+            emptyState.setText(R.string.no_connection);
             progressBar.setVisibility(View.GONE);
         } else {
+            // Initialize the Loader
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         }
@@ -82,31 +92,34 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-
+    /*
+     *  Start the Loader and expect a List of News objects
+     */
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        Log.e(LOG_TAG,"onCreateLoader");
         return new NewsLoader(this, JSON_URL);
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
-        // Clear the adapter of previous earthquake data
+
+        // Clear the adapter of previous data
         mAdapter.clear();
-        Log.e(LOG_TAG,"onLoadFinished");
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
+
+        // If there is a valid list of News, then add them to the adapter's
+        // data set else set the empty textview
         if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
         } else {
-            emptyState.setText("No records found");
+            emptyState.setText(R.string.no_records);
         }
+        // Hide the ProgressBar
         progressBar.setVisibility(View.GONE);
     }
 
+    // Reset adapter on Loader reset
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
-        Log.e(LOG_TAG,"onLoaderReset");
         mAdapter.clear();
     }
 }

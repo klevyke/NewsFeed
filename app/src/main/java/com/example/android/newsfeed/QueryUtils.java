@@ -27,9 +27,7 @@ public final class QueryUtils {
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     /**
-     * Create a private constructor because no one should ever create a {@link QueryUtils} object.
-     * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
+     * a private constructor because no one should ever create a QueryUtils object.
      */
     private QueryUtils() {
     }
@@ -97,9 +95,6 @@ public final class QueryUtils {
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
             Log.e(LOG_TAG, "Problem parsing the news feed JSON results", e);
         }
 
@@ -115,7 +110,7 @@ public final class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error with creating URL ", e);
+            Log.e(LOG_TAG, "Error with creating URL", e);
         }
         return url;
     }
@@ -146,7 +141,7 @@ public final class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, "Error response code:" + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
