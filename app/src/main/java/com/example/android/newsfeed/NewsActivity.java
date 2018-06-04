@@ -25,7 +25,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int NEWS_LOADER_ID = 1;
 
     /** JSON url String */
-    private static final String JSON_URL = "https://content.guardianapis.com/search?q=trump&tag=politics/politics&from-date=2014-01-01&api-key=test&show-fields=all";
+    private static final String JSON_URL = "https://content.guardianapis.com/search?q=roland%20garros&format=json&show-fields=byline,trailText&order-by=newest&api-key=test";
 
     /** Adapter for the list of earthquakes */
     private NewsAdapter mAdapter;

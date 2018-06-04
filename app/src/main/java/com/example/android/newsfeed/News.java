@@ -7,13 +7,15 @@ package com.example.android.newsfeed;
 public class News {
     private String title;
     private String section;
+    private String lead;
     private String date;
     private String author;
     private String url;
 
-    public News(String title, String section, String date, String author, String url) {
+    public News(String title, String section, String lead, String date, String author, String url) {
         this.title = title;
         this.section = section;
+        this.lead = lead;
         this.date = date;
         this.author = author;
         this.url = url;
@@ -25,6 +27,10 @@ public class News {
 
     public String getSection() {
         return section;
+    }
+
+    public String getLead() {
+        return lead;
     }
 
     public String getDate() {

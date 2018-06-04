@@ -82,11 +82,18 @@ public final class QueryUtils {
                 JSONObject newsItem = results.getJSONObject(i);
                 String title = newsItem.getString("webTitle");
                 String section = newsItem.getString("sectionName");
-                String date = newsItem.getString("webPublicationDate");
+                String date ="";
+                if (newsItem.has("webPublicationDate")) {
+                    date = newsItem.getString("webPublicationDate");
+                }
                 String url = newsItem.getString("webUrl");
                 JSONObject fields = newsItem.getJSONObject("fields");
-                String author = fields.getString("byline");
-                news.add(new News(title, section, date, author, url));
+                String author ="";
+                if (fields.has("byline")) {
+                    author = fields.getString("byline");
+                }
+                String lead = fields.getString("trailText");
+                news.add(new News(title, section, lead, date, author, url));
             }
 
         } catch (JSONException e) {
