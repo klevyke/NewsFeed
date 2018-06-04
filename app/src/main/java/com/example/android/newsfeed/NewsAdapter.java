@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView leadTextView = (TextView) convertView.findViewById(R.id.lead);
 
         // Get the name of the current News object and set this text on the TextView
-        leadTextView.setText(news.getLead());
+        leadTextView.setText(Html.fromHtml(news.getLead()));
 
         // Find the TextView in the list_item.xml layout with the ID date
         TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
