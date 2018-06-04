@@ -2,7 +2,6 @@
 <resources>
     <dimen name="zero_size">0dp</dimen>
     <dimen name="small_margin">8dp</dimen>
-    <dimen name="normal_margin">16dp</dimen>
     <dimen name="title_text">18sp</dimen>
     <dimen name="small_text">12sp</dimen>
 </resources>
