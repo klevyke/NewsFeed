@@ -32,19 +32,11 @@ public class News {
     }
 
     /*
-    /* Returns only the date part of the string
+    /* Returns the date in a user friendly format
      */
-    public String getOnlyDate() {
-        /* TODO split the string and return the date part */
-        return date;
-    }
+    public String getUserFriendlyDate() {
 
-    /*
-    /* Returns only the date part of the string
-     */
-    public String getOnlyTime() {
-        /* TODO split the string and return the time part */
-        return date;
+        return getDate().replace("T", " ").replace("-",".").replace("Z","");
     }
 
     public String getAuthor() {

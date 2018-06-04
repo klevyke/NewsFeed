@@ -55,13 +55,13 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
 
         // Get the date of the current News object and set this text on the TextView
-        dateTextView.setText(news.getDate().toString());
+        dateTextView.setText(news.getUserFriendlyDate());
 
         // Find the TextView in the list_item.xml layout with the ID title
         TextView authorTextView = (TextView) convertView.findViewById(R.id.author);
 
         // Get the date of the current News object and set this text on the TextView
-        authorTextView.setText(news.getAuthor().toString());
+        authorTextView.setText(news.getAuthor());
 
         final String url = news.getUrl();
         convertView.setOnClickListener(new View.OnClickListener() {
