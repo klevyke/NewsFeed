@@ -1,5 +1,38 @@
 <resources>
-    <string name="app_name">NewsFeed - Roland Garros</string>
+    <string name="app_name">NewsFeed</string>
     <string name="no_connection">No network connection!</string>
     <string name="no_records">No records found</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">News Settings</string>
+
+    <string name="settings_filter_section_label">Section</string>
+    <string name="settings_filter_section_key" translatable="false">filter_section</string>
+    <string name="settings_filter_section_default" translatable="false">@string/settings_order_politics_value</string>
+
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_relevance_value</string>
+
+    <string name="settings_order_by_relevance_label">Relevance</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+
+    <string name="settings_order_by_most_recent_label">Most Recent</string>
+    <string name="settings_order_by_most_recent_value" translatable="false">newest</string>
+
+    <string name="settings_order_politics_label">Politics</string>
+    <string name="settings_order_politics_value" translatable="false">politics</string>
+
+    <string name="settings_order_sport_label">Sport</string>
+    <string name="settings_order_sport_value" translatable="false">sport</string>
+
+    <string name="settings_order_science_label">Science</string>
+    <string name="settings_order_science_value" translatable="false">science</string>
+
+    <string name="settings_order_culture_label">Culture</string>
+    <string name="settings_order_culture_value" translatable="false">culture</string>
+
+    <string name="settings_order_business_label">Business</string>
+    <string name="settings_order_business_value" translatable="false">business</string>
+
+
 </resources>

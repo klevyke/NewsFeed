@@ -35,7 +35,7 @@ public final class QueryUtils {
     /**
      * Query the Guardian feed and return a list of {@link News} objects.
      */
-    public static List<News> fetchEarthquakeData(String requestUrl) {
+    public static List<News> fetchNewsData(String requestUrl) {
 
         // Create URL object
         URL url = createUrl(requestUrl);

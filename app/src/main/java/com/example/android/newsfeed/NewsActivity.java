@@ -4,11 +4,15 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,7 +27,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int NEWS_LOADER_ID = 1;
 
     /** JSON url String */
-    private static final String JSON_URL = "https://content.guardianapis.com/search?q=roland%20garros&format=json&show-fields=byline,trailText&order-by=newest&api-key=test";
+    private static final String JSON_URL = "https://content.guardianapis.com/search";
 
     /** Adapter for the list of news */
     private NewsAdapter mAdapter;
@@ -56,7 +60,10 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         newsListView.setAdapter(mAdapter);
 
-        // Initialiye the ConnectivityManages and check the internet connection and display a message if no connection found
+        // Initialize the Loader
+        final LoaderManager loaderManager = getLoaderManager();
+
+        // Initialize the ConnectivityManages and check the internet connection and display a message if no connection found
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -66,10 +73,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
             emptyState.setText(R.string.no_connection);
             progressBar.setVisibility(View.GONE);
         } else {
-            // Initialize the Loader
-            LoaderManager loaderManager = getLoaderManager();
+            // Set the Loader
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         }
+
+
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
@@ -77,10 +85,10 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Find the current earthquake that was clicked on
-                News currentEarthquake = mAdapter.getItem(position);
+                News currentNews = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
+                Uri earthquakeUri = Uri.parse(currentNews.getUrl());
 
                 // Create a new intent to view the earthquake URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
@@ -96,7 +104,31 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        return new NewsLoader(this, JSON_URL);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String filterSection = sharedPrefs.getString(
+                getString(R.string.settings_filter_section_key),
+                getString(R.string.settings_filter_section_default));
+
+        String orderBy  = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(JSON_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value
+        uriBuilder.appendQueryParameter("q", "europe");
+        uriBuilder.appendQueryParameter("format", "json");
+        uriBuilder.appendQueryParameter("section", filterSection);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("show-fields", "byline,trailText");
+        uriBuilder.appendQueryParameter("api-key","test");
+
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -120,5 +152,22 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
